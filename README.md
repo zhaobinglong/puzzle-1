@@ -9,3 +9,6 @@ https://leeenx.github.io/puzzle/dist/index.html
 npm install
 npm start
 ```
+
+## 发布
+npm run build
