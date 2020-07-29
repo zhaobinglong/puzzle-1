@@ -128,6 +128,7 @@ puzzle.totalTime = 60
 
 // 通关
 puzzle.event.on("pass", function() { 
+  console.log('pass event', )
   if(record.level < levels.length - 1) { 
     // 解锁
     puzzleLevel[++record.level].className = ""
@@ -136,6 +137,7 @@ puzzle.event.on("pass", function() {
   }
   else {
     alert("游戏结束")
+    back()
   }
 })
 
@@ -146,7 +148,7 @@ puzzle.event.on("gameover", function() {
 
 // 暂停显示广告
 puzzle.event.on("pause", function() {
-  puzzleAd.style.display = "block"
+  // puzzleAd.style.display = "block"
 })
 
 // 恢复隐藏广告
