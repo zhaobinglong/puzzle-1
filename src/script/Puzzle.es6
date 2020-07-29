@@ -536,9 +536,13 @@ class Puzzle {
 				activeCliparts[identifier] = clipart
 				startPositions[identifier] = {x: position.x, y: position.y}
 			})
+            
+            // 给拼块随机一个旋转的角度
 			clipart.rotate = (Math.random() - .5) * Math.PI / 4
-
-			clipart.x0 = cells[index].x - x
+            
+            // 计算拼块位移的横轴距离和纵轴距离
+            // 现在有个问题是拼块有可能会偏移出屏幕，无法点击
+			clipart.x0 = cells[index].x - x - 50
 			clipart.y0 = cells[index].y - y
 			
 			// 边拖边回正角度参数
@@ -554,10 +558,12 @@ class Puzzle {
 
 			// 拼块
 			// TweenMax.to(sprite, .6, props)
+			// .3是控制拼块从整体到打乱的的速度
 			tweens.push(TweenMax.to(sprite, .3, props))
 			// 选中拼块信息同步
 			selected.set(props)
 		})
+
 		// 返回 Promise
 		return new Promise(
 			(resolve) => {
@@ -568,6 +574,7 @@ class Puzzle {
 	}
 	// 安装拼块
 	fit(clipart) {
+		console.log('start fit', clipart)
 		// 当前拼块索引
 		let index = clipart.index
 		// 左边拼块
@@ -667,17 +674,24 @@ class Puzzle {
 		parent.tween = TweenMax.fromTo(parent, .6, {alpha: .4}, {alpha: 1, ease: Linear.easeNone})
 
 		// 判断游戏是否通关
+		console.log('here is puzzle.children')
+		console.log(this.puzzle.children)
 		if(this.puzzle.children.length === 0) {
 			this.pass()
 		}
 	}
 	pass() { 
 		timer.delete(this.timer)
-		this.displayShell().then(e => this.event.dispatch('pass', '通关'))
+		this.displayShell().then(e => {
+			console.log(e)
+			this.event.dispatch('pass', '通关')
+		})
 	}
 	// 礼花
 	displayShell() { 
+		console.log('success  displayShell', this.shellTimeline)
 		this.stage.addChild(this.fireworksContainer)
+		console.log(this.shellTimeline)
 		// 创建一条时间轴
 		if(this.shellTimeline === undefined) {
 			// 礼花随机位置
@@ -715,7 +729,14 @@ class Puzzle {
 			this.shellTimeline.add(tls, 0, 'start', 0.03)
 		}
 		return new Promise((resolve, reject) => {
-			this.shellTimeline.restart().call(e => this.stage.removeChild(this.fireworksContainer) & resolve())
+			console.log('new Promise', this.shellTimeline)
+		    this.stage.removeChild(this.fireworksContainer)
+			resolve()
+			// this.shellTimeline.restart().call(e => {
+			// 	console.log('this.shellTimeline.restart', e)
+			// 	this.stage.removeChild(this.fireworksContainer)
+			// 	resolve()
+			// })
 		})
 	}
 	// 销毁
