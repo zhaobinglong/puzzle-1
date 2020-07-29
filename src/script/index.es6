@@ -148,7 +148,7 @@ puzzle.event.on("gameover", function() {
 
 // 暂停显示广告
 puzzle.event.on("pause", function() {
-  // puzzleAd.style.display = "block"
+  puzzleAd.style.display = "block"
 })
 
 // 恢复隐藏广告
