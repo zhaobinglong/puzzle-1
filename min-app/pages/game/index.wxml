@@ -1,0 +1,4 @@
+
+<view >
+<web-view src="https://examlab.cn/puzzle/dist/index.html"></web-view>
+</view>
