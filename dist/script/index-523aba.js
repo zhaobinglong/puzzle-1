@@ -727,8 +727,9 @@ var Puzzle = /*#__PURE__*/function () {
         this.gridProps.cell.width = width;
         grid.reset(this.gridProps);
         cells = grid.pick(this.cliparts.length);
-      } // 显示底片
+      }
 
+      console.log('cells', cells); // 显示底片
 
       this.negative.visible = true; // 手指下的拼块（multiple touch）
 
@@ -868,8 +869,15 @@ var Puzzle = /*#__PURE__*/function () {
         clipart.rotate = (Math.random() - .5) * Math.PI / 4; // 计算拼块位移的横轴距离和纵轴距离
         // 现在有个问题是拼块有可能会偏移出屏幕，无法点击
 
-        clipart.x0 = cells[index].x - x - 50;
-        clipart.y0 = cells[index].y - y; // 边拖边回正角度参数
+        clipart.x0 = cells[index].x - x;
+        clipart.y0 = cells[index].y - y; // 二次计算拼块的横轴位移
+
+        if (clipart.x0 < 0) {
+          clipart.x0 = clipart.x0 + 100;
+        } else {
+          clipart.x0 = clipart.x0 - 100;
+        } // 边拖边回正角度参数
+
 
         clipart.negativeCount = 10;
         clipart.negativeRotate = -clipart.rotate / clipart.negativeCount; // 拼块的属性
@@ -2243,4 +2251,4 @@ module.exports = PIXI["filters"];
 /***/ })
 
 /******/ });
-//# sourceMappingURL=index-3d0689.js.map
+//# sourceMappingURL=index-523aba.js.map
